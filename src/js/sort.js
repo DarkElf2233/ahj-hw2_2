@@ -1,29 +1,39 @@
-import addElements from './base';
+import addMovies from './base';
 
-function getElementsInArray() {
-  const elements = [...document.querySelectorAll('.movie')];
+function deleteMovies() {
+  const movies = [...document.querySelectorAll('.movie')];
+  for (const movie of movies) {
+    movie.remove();
+  }
+}
+
+function getMoviesInArray() {
+  const movies = [...document.querySelectorAll('.movie')];
   const res = [];
 
-  for (const el of elements) {
-    res.fill({
-      id: el.dataset.id,
-      title: el.dataset.title,
-      imdb: el.dataset.imdb,
-      year: el.dataset.year,
+  for (const movie of movies) {
+    res.push({
+      id: parseInt(movie.dataset.id),
+      title: movie.dataset.title,
+      imdb: parseFloat(movie.dataset.imdb),
+      year: parseInt(movie.dataset.year),
     });
   }
   return res;
 }
 
-function sortElements(elements, attr, sortReverse) {
+function sortMovies(movies, attr, sortReverse) {
   if (sortReverse) {
-    return elements.sort((a, b) => a[attr] - b[attr]);
+    return movies.sort((a, b) => a[attr] - b[attr]);
   }
-  return elements.sort((a, b) => b[attr] - a[attr]);
+  return movies.sort((a, b) => b[attr] - a[attr]);
 }
 
 setInterval(() => {
-  const elements = getElementsInArray();
-  const sortedElements = sortElements(elements, 'id', false);
-  addElements(sortedElements);
+  const movies = getMoviesInArray();
+  console.log(movies);
+  const sortedMovies = sortMovies(movies, 'id', false);
+  console.log(sortedMovies);
+  deleteMovies();
+  addMovies(sortedMovies);
 }, 2000);

@@ -1,4 +1,4 @@
-export default function addElements(elements) {
+export default function addMovies(elements) {
   const table = document.querySelector('.table');
 
   for (const el of elements) {
@@ -13,7 +13,7 @@ export default function addElements(elements) {
   }
 }
 
-addElements(
+addMovies(
   [
     {
       id: 26,

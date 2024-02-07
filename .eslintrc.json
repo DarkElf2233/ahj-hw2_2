@@ -12,6 +12,7 @@
     "rules": {
         "no-console": "off",
         "no-restricted-syntax": "off",
-        "no-constant-condition": "off"
+        "no-constant-condition": "off",
+        "radix": "off"
     }
 }
