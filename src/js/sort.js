@@ -10,7 +10,6 @@ function deleteMovies() {
 function getMoviesInArray() {
   const movies = [...document.querySelectorAll('.movie')];
   const res = [];
-
   for (const movie of movies) {
     res.push({
       id: parseInt(movie.dataset.id),
@@ -23,17 +22,37 @@ function getMoviesInArray() {
 }
 
 function sortMovies(movies, attr, sortReverse) {
-  if (sortReverse) {
-    return movies.sort((a, b) => a[attr] - b[attr]);
+  if (typeof movies[0][attr] === 'string') {
+    if (sortReverse) {
+      return movies.sort((a, b) => b[attr].localeCompare(a[attr]));
+    }
+    return movies.sort((a, b) => a[attr].localeCompare(b[attr]));
   }
-  return movies.sort((a, b) => b[attr] - a[attr]);
+
+  if (sortReverse) {
+    return movies.sort((a, b) => b[attr] - a[attr]);
+  }
+  return movies.sort((a, b) => a[attr] - b[attr]);
 }
 
-setInterval(() => {
-  const movies = getMoviesInArray();
-  console.log(movies);
-  const sortedMovies = sortMovies(movies, 'id', false);
-  console.log(sortedMovies);
-  deleteMovies();
-  addMovies(sortedMovies);
-}, 2000);
+const attributes = [];
+for (const movie of getMoviesInArray()) {
+  for (const key in movie) {
+    if (!attributes.includes(key)) {
+      attributes.push(key);
+    }
+  }
+}
+
+while (true) {
+  for (const attr of attributes) {
+    for (const sort of [false, true]) {
+      setTimeout(() => {
+        const movies = getMoviesInArray();
+        const sortedMovies = sortMovies(movies, attr, sort);
+        deleteMovies();
+        addMovies(sortedMovies);
+      }, 2000);
+    }
+  }
+}
